@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Галерея</title>
+  <style>
+    .gallery {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+      gap: 20px;
+      padding: 20px;
+    }
+    img {
+      width: 100%;
+      height: 200px;
+      object-fit: cover;
+      border-radius: 8px;
+      box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+    }
+  </style>
+</head>
+<body>
+<h1>Загруженные изображения</h1>
+<div class="gallery" id="gallery"></div>
+
+<script>
+  fetch('/images')
+    .then(response => response.json())
+    .then(data => {
+    const container = document.getElementById('gallery');
+    data.images.forEach(img => {
+      const imgElement = document.createElement('img');
+      imgElement.src = `/images/${img}`;
+      imgElement.alt = img;
+      container.appendChild(imgElement);
+    });
+  })
+    .catch(error => console.error('Ошибка:', error));
+</script>
+</body>
+</html>
